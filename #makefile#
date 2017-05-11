@@ -1,0 +1,2 @@
+prog1:
+	main.c insert.c stats.c constants.h struct_def.h

@@ -1,0 +1,43 @@
+ 1   #Test 0 for the assembler.
+ 2              .text
+ 3   #Factorial function.
+ 4   
+ 5   fact:      li      $5,1      #$5 -- counter.
+ 6              move    $6,$5     #$6 -- result.
+ 7   
+ 8   comp:      jeq     $5,$1,factpr
+ 9              addi    $5,$5,1
+10              mul     $6,$6,$5
+11              j       comp
+12   
+13   factpr:    prr     $6
+14              jr      $31
+15   
+16   #Fibonacci function.
+17   
+18   fibo:      move    $10,$0
+19              addi    $11,$10,1
+20              li      $12,1
+21   
+22   loop:      add     $13,$10,$11
+23              addi    $12,$12,1
+24              jeq     $12,$1,fibpr   #We can print result.
+25              move    $10,$11
+26              move    $11,$13
+27              j       loop
+28   
+29   fibpr:     prr     $13
+30              jr      $31
+
+Errors detected:
+
+
+Multiply defined symbol(s):
+
+
+Undefined symbol(s):
+
+  factpr
+  comp
+  fibpr
+  loop

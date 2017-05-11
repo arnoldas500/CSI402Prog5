@@ -1,0 +1,6 @@
+hello	32
+goodbye	56
+my	1
+name	77
+is	91
+andrew	3

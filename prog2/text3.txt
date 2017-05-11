@@ -1,0 +1,6 @@
+one	3
+ring	7
+to	9
+rule	3
+them	7
+all	9

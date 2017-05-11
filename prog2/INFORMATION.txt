@@ -1,0 +1,23 @@
+text1.txt converts to binary1.bin and vice-versa
+text2.txt converts to binary2.bin and vice-versa
+text3.txt converts to binary3.bin and vice-versa
+
+Expected analysis printouts:
+
+For binary1.bin:
+Length of shortest string = 2
+Length of longest string = 7
+Value of maximum integer = 91
+Value of minimum integrer = 1
+
+For binary2.bin:
+Length of shortest string = 1
+Length of longest string = 6
+Value of maximum integer = 6
+Value of minimum integer = 1
+
+For binary3.bin:
+Length of shortest string = 2
+Length of longest string = 4
+Value of maximum integer = 9
+Value of minimum integer = 3

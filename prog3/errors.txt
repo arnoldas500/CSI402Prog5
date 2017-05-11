@@ -1,0 +1,105 @@
+gcc -c main.c
+gcc -c InitDataBase.c
+gcc -c InitTable.c
+InitTable.c: In function 'rowConfig':
+InitTable.c:109:13: warning: passing argument 1 of 'fread' makes pointer from integer without a cast
+/usr/include/iso/stdio_iso.h:236:15: note: expected 'void *' but argument is of type 'unsigned char'
+InitTable.c:111:13: warning: passing argument 1 of 'fread' makes pointer from integer without a cast
+/usr/include/iso/stdio_iso.h:236:15: note: expected 'void *' but argument is of type 'int'
+InitTable.c: In function 'attConfig':
+InitTable.c:125:21: warning: assignment makes integer from pointer without a cast
+gcc -c help.c
+gcc -c queryMain.c
+queryMain.c: In function 'checkTable':
+queryMain.c:10:16: error: invalid operands to binary == (have 'struct dataBase' and 'int')
+queryMain.c:12:17: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:16:25: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:18:29: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:18:9: error: too few arguments to function 'strcmp'
+queryMain.c: In function 'checkColNames':
+queryMain.c:25:16: error: invalid operands to binary == (have 'struct dataBase' and 'int')
+queryMain.c:27:17: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:32:25: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:35:30: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:35:9: error: too few arguments to function 'strcmp'
+queryMain.c:36:31: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:38:38: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c: In function 'queryPrint':
+queryMain.c:50:5: warning: passing argument 1 of 'fgets' from incompatible pointer type
+/usr/include/iso/stdio_iso.h:220:14: note: expected 'char *' but argument is of type 'char **'
+queryMain.c:54:9: warning: passing argument 1 of 'sscanf' from incompatible pointer type
+/usr/include/iso/stdio_iso.h:212:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:55:13: warning: passing argument 1 of 'strlen' from incompatible pointer type
+/usr/include/iso/string_iso.h:69:15: note: expected 'const char *' but argument is of type 'char ***'
+queryMain.c:56:13: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:56:13: warning: passing argument 2 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char ***'
+queryMain.c:59:16: error: switch quantity not an integer
+queryMain.c:60:13: error: case label does not reduce to an integer constant
+queryMain.c:61:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:62:21: warning: passing argument 2 of 'select' from incompatible pointer type
+structs.h:31:6: note: expected 'char **' but argument is of type 'char ***'
+queryMain.c:63:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:70:13: error: case label does not reduce to an integer constant
+queryMain.c:71:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:72:21: warning: passing argument 2 of 'project' from incompatible pointer type
+structs.h:29:6: note: expected 'char **' but argument is of type 'char ***'
+queryMain.c:77:13: error: case label does not reduce to an integer constant
+queryMain.c:78:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:79:21: warning: passing argument 2 of 'colStat' from incompatible pointer type
+structs.h:32:6: note: expected 'char **' but argument is of type 'char ***'
+queryMain.c:84:13: error: case label does not reduce to an integer constant
+queryMain.c:85:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:86:21: warning: passing argument 2 of 'rowStat' from incompatible pointer type
+structs.h:34:6: note: expected 'char **' but argument is of type 'char ***'
+queryMain.c:91:13: error: case label does not reduce to an integer constant
+queryMain.c:92:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:93:21: warning: passing argument 2 of 'numRow' from incompatible pointer type
+structs.h:35:6: note: expected 'char **' but argument is of type 'char ***'
+queryMain.c:94:17: warning: passing argument 1 of 'strcmp' from incompatible pointer type
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'char **'
+queryMain.c:95:21: warning: passing argument 2 of 'numCol' from incompatible pointer type
+structs.h:33:6: note: expected 'char **' but argument is of type 'char ***'
+queryMain.c: In function 'project':
+queryMain.c:114:25: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:116:27: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:118:31: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:128:49: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:133:79: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:133:21: warning: passing argument 1 of 'strcmp' makes pointer from integer without a cast
+/usr/include/iso/string_iso.h:64:12: note: expected 'const char *' but argument is of type 'unsigned char'
+queryMain.c:139:61: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c: In function 'select':
+queryMain.c:172:25: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:174:27: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:176:31: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:179:39: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:184:41: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:185:50: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:190:45: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:191:50: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:200:47: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:205:45: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:206:54: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:211:47: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:216:45: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:217:54: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:222:43: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:227:53: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:228:50: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:233:45: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:234:54: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:239:43: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:244:53: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:245:50: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:250:45: error: invalid type argument of '->' (have 'struct dataBase')
+queryMain.c:251:54: error: invalid type argument of '->' (have 'struct dataBase')
+*** Error code 1
+make: Fatal error: Command failed for target `queryMain.o'

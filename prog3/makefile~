@@ -1,0 +1,10 @@
+p3: main.o InitDataBase.o InitTable.o
+	gcc main.o InitDataBase.o InitTable.o -o p3
+main.o: main.c structs.h
+	gcc -c main.c
+InitDataBase.o: InitDataBase.c structs.h
+	gcc -c InitDataBase.c
+InitTable.o: InitTable.c structs.h
+	gcc -c InitTable.c
+clean:
+	rm -f *.o core

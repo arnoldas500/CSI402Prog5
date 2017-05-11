@@ -1,0 +1,785 @@
+//  email: akurbanovas@albany.edu
+//  Copyright © 2016 arnoldas kurbanovas. All rights reserved.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "structs.h"
+
+//struct data * initilize(FILE *);
+//struct data * configTable(FILE *, int, char *, int);
+//void queryHandler(FILE *, struct data*);
+void numRowsQuery(struct dataBase*, int);
+void numColsQuery( struct dataBase *, int index);
+void rowStatQuery(struct dataBase*, int index);
+//void colStatQuery(struct dataBase*, int index, int index2);
+//void selectQuery(struct dataBase*, int, int, char*, char*);
+
+//fgets sscanf //at most 100 bytes
+void queryHandler(FILE * queryFilePtr, struct dataBase * DataBase){
+    char queryCommand [10];
+    char table[10];
+    char column[10];
+    int i, s, r;
+    int numTables;
+    i = s = r = numTables = 0;
+    char cmp[3];
+    int value;
+    char value2[5];
+    //char cmp[3];
+    //char selectValue[50];
+    printf("s is %d\n", s);
+  while( queryFilePtr != EOF){
+    fscanf(queryFilePtr, " %s", &queryCommand);
+    printf("HEre is the query command %s\n", queryCommand);
+
+    
+   if(strcmp(queryCommand, "numCols")==0){
+      puts("I get inside numCols");
+      fscanf(queryFilePtr, "%s", table);
+      printf("Here is the table next to numCols %s\n", table);
+      printf("Here is the number of tables %d\n", DataBase->numTables);
+      printf("Here is the name of the table %s\n", DataBase->tableArray[0]->tableName);
+
+       //printf("Here is the name of the table in the query %s \n", TABLE->tableName);
+      
+       for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+	  // printf("s is : %d", s);
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+     }
+       numColsQuery(DataBase, s);
+    }
+
+    
+    
+    if(strcmp(queryCommand,"rowStat")==0){
+       fscanf(queryFilePtr, "%s", table);
+      //number of bytes in each row of the table
+       numTables = DataBase->numTables;
+    //numCols = dataBase->tableArray->numCols;
+    for(i=0; i<numTables; i++){
+       //for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+	  printf("value for s: %d\n", s);
+        if(strcmp((DataBase->tableArray[i]->tableName), table) == 0) {
+           puts("**");
+           printf("tablename: %s",DataBase->tableArray[i]->tableName);
+              
+ s = i;
+ printf("value for s: %d\n", s);
+}
+     } 
+       printf("value for s: %d\n", s);
+       rowStatQuery(DataBase, s);
+
+    }
+
+/*
+   if(strcmp(queryCommand, "colStat") == 0){
+      fscanf(queryFilePtr, "%s %s", table, column);
+
+      for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}}
+
+     for(i = 0; i < DataBase->tableArray[s]->numCols; i++){
+        if(strcmp( (DataBase->tableArray[s]->columnArray[i]->header), column  ) == 0)
+           r = i;
+     }
+        colStatQuery(DataBase, s, r);
+
+
+    }
+
+*/
+
+
+   if(strcmp(queryCommand, "numRows") == 0){
+        puts("I get inside numRows");
+      fscanf(queryFilePtr, " %s", &table);
+
+           for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+       }
+       numRowsQuery(DataBase, s);
+     }
+
+/*
+   if(strcmp(queryCommand, "select")==0){
+      fscanf(queryFilePtr, " %s %s %s %s", table, column, cmp, value2);
+      for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+         //selectQuery(table, column, cmp, value2, s,i, DataBase);
+        }
+
+     for(i = 0; i < DataBase->tableArray[s]->numCols; i++){
+        if(strcmp( (DataBase->tableArray[s]->columnArray[i]->header), column  ) == 0)
+           r = i;}
+        selectQuery(DataBase, i, s, cmp, value2); }
+
+   if(strcmp(queryCommand, "project")==0){
+          puts("I get inside project first part");
+      fscanf(queryFilePtr, " %s %s", &table, &column);
+      for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}}
+
+     for(i = 0; i < DataBase->tableArray[s]->numCols; i++){
+        if(strcmp( (DataBase->tableArray[s]->columnArray[i]->header), column  ) == 0)
+           r = i;}
+        projectQuery(DataBase, s, r );}
+
+*/
+   if(strcmp(queryCommand, "stop") == 0){
+         puts("Query file stopped.");
+         exit(1);}
+}
+}//end while
+
+void numRowsQuery( struct dataBase * DataBase, int index){
+    printf("The number of rows: %d \n", DataBase->tableArray[index]->rowSize);
+}
+
+void numColsQuery( struct dataBase * DataBase, int index){
+     puts("I get inside the numCols query");
+    printf("The number of columns: %d \n", DataBase->tableArray[index]->numCols);
+}
+
+void rowStatQuery(struct dataBase * DataBase, int index){
+  puts("I get inside the rowstat query");
+  int i;
+   for (i = 0; i < DataBase->tableArray[index]->numRows; i++){
+  printf("The size in bytes of each line %d\n", DataBase->tableArray[index]->rowArray[i]->size);
+}
+}
+
+/*
+void colStatQuery(struct dataBase * DataBase, int indexOne, int indexTwo){
+     puts("I get inside the colstat query");
+     int i;
+     for(i = 0; i < DataBase->tableArray[indexOne]->numCols; i++){
+      printf("The size in bytes of each line %d\n", DataBase->tableArray[indexOne]->columnArray[i]->size);}
+}
+
+
+
+void projectQuery(struct data* DataBase, int i, int r){
+   int f;
+   char temp = { };
+   int temp2 = 0;
+   puts("I get inside the project query");
+     for(f=0; f < DataBase->tableArray[i]->numCols; f++){
+        if(strcmp(DataBase->tableArray[i]->columnArray[r]->type,"str")==0){
+       if(strcmp(DataBase->tableArray[i]->columnArray[r]->strValues[f],temp)!=0){
+        temp = DataBase->tableArray[i]->columnArray[r]->strValues[f];
+       printf("%s\n", DataBase->tableArray[i]->columnArray[r]->strValues[f]);}}
+
+    else{
+      temp2= DataBase->tableArray[i]->columnArray[r]->intValues[f];
+     if(strcmp(DataBase->tableArray[i]->columnArray[r]->intValues[f],temp2)!=0){
+       printf("%s\n", DataBase->tableArray[i]->columnArray[r]->intValues[f]);}}
+
+}
+}
+
+
+void selectQuery(struct data* DataBase, int x, int y, char* cmd, char*value){
+
+
+
+}
+ */
+
+
+/*
+int checkTable(struct dataBase *dataBase, char * tableNames){
+  //  checkPoint(stdout);
+  printf("%s\t%d\n",__FILE__,__LINE__);
+  fflush(stdout);   
+ if(dataBase==NULL)
+        printf("dataBase doesnt exist\n");
+    if((dataBase->tableArray) == NULL)
+        printf("tableArray doesnt exist\n");
+    int i, numTables;
+    i = numTables = 0;
+    numTables = dataBase->numTables;
+    for(i=0; i<numTables; i++){
+        if((strcmp((dataBase->tableArray[i])->tableName, tableNames)==0))
+            return 1; //table got populated correctly
+    }
+    return 0; //failed exit
+}
+
+int checkColNames(struct dataBase *dataBase, char * tableNames, char * colNames){
+  // checkPoint(stdout);  
+  printf("%s\t%d\n",__FILE__,__LINE__);
+  fflush(stdout); 
+ if(dataBase==NULL)
+        printf("dataBase doesnt exist\n");
+    if((dataBase->tableArray) == NULL)
+        printf("tableArray doesnt exist\n");
+    int i, j, numTables, numCols;
+    i = j = numTables = numCols = 0;
+    //numRows = dataBase->tableArray->numRows;
+    numTables = dataBase->numTables;
+    //numCols = dataBase->tableArray->numCols;
+    for(i=0; i<numTables; i++){
+        if(!(strcmp((dataBase->tableArray[i])->tableName, tableNames))){
+            numCols = dataBase->tableArray[i]->numCols;
+            for(j=0; j<numCols; j++){
+                if(!(strcmp((dataBase->tableArray[i]->rowArray[0]->attrArray[j]->name), colNames))){
+                return 1; //table got populated correctly
+                }
+            }//ends inner for loop
+            return 0;
+        }//ends if statement
+    }//ends outter for loop
+    return 0; //failed exit
+}
+/*
+void queryPrint(struct dataBase *dataBase, FILE *queryFile){
+  // checkPoint(stdout);   
+  printf("%s\t%d\n",__FILE__,__LINE__);
+  fflush(stdout);
+ char str[101];
+ const char s[2]; //for the token
+ char * token;
+ 
+ int offset = 0;
+ //for(offset = 0; offset < 102; ++offset)
+   //temp[offset] = '\0';
+    while(fgets((str), 100, queryFile)!=NULL){
+      //offset = 0;
+      printf("%s\n", str);
+      printf("%s\t%d\n",__FILE__,__LINE__);
+      fflush(stdout);
+        char *strPtr[5];
+        char strTemp[101];
+	//for(offset = 0; offset < 102; ++offset)
+	  //strTemp[offset] = '\0';
+	//offset = 0;
+        //int i=0;
+	//int j=0;
+	//        while((sscanf((temp+offset), "%s", strTemp))!=NULL){
+	//  for(j=0;(temp[j] != '\n');j++){
+	//    printf("%hhu ", temp[j]);
+	//  }
+	///  printf("\n\n");
+	  //	  while(temp[offset] == ' ' || temp[offset] == '\0' || temp[offset] == '\t'){
+	  // offset++;
+	    //	  }
+	
+        token = strtok(str,s); //prime the first token
+            while(token != NULL){ //going thru all tokens
+             printf("%s\n", token);
+              token = strtok(NULL,s);
+             }
+        /*
+	while(temp[i]!= '\n' && temp[i] != NULL){
+	  while(temp[i] == ' ' || temp[i] == '\t'){
+	    i++;
+	  }
+	  j=i;
+	  while(temp[j]!= '\n' && temp[j] != NULL && temp[j] != ' ' && temp[j] != '\t'){
+	    j++;
+	  }
+	  strPtr[offset] = (char*)malloc((j-i+1)* sizeof(char));
+
+  printf("%s\t%d\n",__FILE__,__LINE__);
+	  fflush(stdout);
+	  printf("%s\n",strTemp);
+            strPtr[i] = malloc((strlen(strTemp)+1) *sizeof(char));
+            strcpy(strPtr[i], strTemp);
+	    strPtr[strlen(strTemp) + 1] = '\0';
+	    printf("%s\n", strPtr[i]);
+	    //for(j=0;(temp[j] != '\n');j++){
+	    //printf("%hhu ", temp[j]);
+            //} 
+	    offset+=strlen(strPtr[i]);
+	    for(j=0;(temp[j] != '\n');j++){
+	     printf("%hhu ", temp[j]);
+	    }
+       
+	    i++;
+	    printf("%s\n",(temp+offset));
+        }
+        
+        switch(strPtr[0][0]){
+            case 's':
+                if(strcmp(strPtr[0], "select")==0)
+                    if(checkTable(dataBase,strPtr[1]) && checkColNames(dataBase, strPtr[1], strPtr[2])){
+                        select(dataBase, strPtr);
+                    }else{
+                        if(checkTable(dataBase,strPtr[1])){
+                            if(checkColNames(dataBase, strPtr[1], strPtr[2])){
+                                printf("unknow error!\n");//this should never actually run
+                            }else
+                                printf("Column does not exist when running select!\n");
+                        }
+                        else{
+                            printf("Table does not exist when running select!\n");
+                        
+                        }
+                    }
+                    
+                else if(strcmp(strPtr[0], "stop")==0){
+                    //call stop function
+                }
+                else
+                    printf("error using s\n");
+                break;
+                
+            case 'p':
+                if(strcmp(strPtr[0], "project")==0){
+                if(checkTable(dataBase,strPtr[1]) && checkColNames(dataBase, strPtr[1], strPtr[2])){
+                        project(dataBase, strPtr);
+                    }else{
+                        if(checkTable(dataBase,strPtr[1])){
+                            if(checkColNames(dataBase, strPtr[1], strPtr[2])){
+                                printf("unknow error!\n");//this should never actually run
+                            }else
+                                printf("Column does not exist when running project!\n");
+                        }
+                        else{
+                            printf("Table does not exist when running project!\n");
+                        
+                        }
+                    }
+                }
+                break;
+                
+            case 'c':
+                if(strcmp(strPtr[0], "colStat")==0){
+                //    colStat(dataBase, strPtr);
+                }
+                else
+                    printf("error using c\n");
+                break;
+                
+            case 'r':
+                if(strcmp(strPtr[0], "rowStat")==0){
+                //    rowStat(dataBase, strPtr);
+                }
+                else
+                    printf("error using r\n");
+                break;
+                
+            case 'n':
+                if(strcmp(strPtr[0], "numRow")==0){
+                //    numRow(dataBase, strPtr);
+                }
+                else if(strcmp(strPtr[0], "numCol")==0){
+                //    numCol(dataBase, strPtr);
+                }
+                else
+                    printf("error using n\n");
+                break;
+                
+            default:
+                printf("error! default case hit");
+                break;
+        }//ends switch statement
+    }//ends while loop for fgets
+}
+
+
+void queryPrint(struct dataBase * dataBase, FILE * queryFilePtr){
+    
+int i;
+char * command = malloc(16); 
+ char * table = malloc(16);
+ char * attribute = malloc(16);
+ for(i=0; i < dataBase->numTables;i++){
+   dataBase->tableArray[i];
+ }
+ printf("%d\n",dataBase->tableArray[0]->numCols);
+ puts("\n");
+while(!feof(queryFilePtr)){
+  while(fscanf(queryFilePtr, "%s %s\n", command, table)==2){
+    if(strcmp(command, "numCols") == 0){
+      printf(" %s %s", command, table);
+      // dataBase->tableArray[i] = malloc(256);
+      //      if(strcmp(tableArray[i], table) == 0)
+      printf(" %d\n",dataBase->tableArray[i]->numCols);
+    }
+    else if(strcmp(command, "numRows") == 0){
+      printf(" %s %s\n", command, table);
+      }
+      else if(strcmp(command, "rowStat") == 0){
+      printf(" %s %s\n", command, table);
+    }
+      else if(strcmp(command, "colStat") == 0){
+	fscanf(queryFilePtr, "%s", attribute);
+      printf(" %s %s %s\n", command, table, attribute);
+    }
+    else if(strcmp(command, "project") == 0){
+      fscanf(queryFilePtr, "%s", attribute);
+      printf(" %s %s %s\n", command, table, attribute);
+      }
+    else{
+	return;
+      }
+  }
+}
+}
+
+
+
+/*
+//fgets sscanf //at most 100 bytes 
+void queryPrint(struct dataBase * DataBase, FILE * queryFilePtr){
+    char queryCommand [10];
+    char table[10];
+    char column[10];
+    int i, s, r;
+    char cmp[3];
+    int value;
+    char value2[5];
+    //char cmp[3];
+    //char selectValue[50];
+    while((queryFilePtr)!=EOF){
+    fscanf(queryFilePtr, " %s", &queryCommand);
+    printf("HEre is the query command %s\n", queryCommand);
+
+    if(strcmp(queryCommand,"rowStat")==0){
+       fscanf(queryFilePtr, "%s", table);
+      //number of bytes in each row of the table
+      
+       for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+     }
+       rowStatQuery(DataBase, s);
+
+    }
+
+
+
+
+   if(strcmp(queryCommand, "colStat") == 0){
+      fscanf(queryFilePtr, "%s %s", table, column);
+
+      for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}}
+      
+     for(i = 0; i < DataBase->tableArray[s]->numCols; i++){
+        //if(strcmp( (DataBase->tableArray[s]->columnArray[i]->header), column  ) == 0)
+         if(strcmp( (DataBase->tableArray[s]->rowArray[i]->attrArray[i]->name), column  ) == 0)
+           r = i;
+     }      
+        colStatQuery(DataBase, s, r);
+
+
+    }
+
+
+
+
+
+
+
+   if(strcmp(queryCommand, "numCols")==0){
+      puts("I get inside numCols");
+      fscanf(queryFilePtr, "%s", table);
+      printf("Here is the table next to numCols %s\n", table);
+      printf("Here is the number of tables %d\n", DataBase->numTables);
+      printf("Here is the name of the table %s\n", DataBase->tableArray[0]->tableName);      
+
+       //printf("Here is the name of the table in the query %s \n", TABLE->tableName);
+       for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+     }
+       numColsQuery(DataBase, s);
+    }
+
+
+
+
+
+
+
+
+   if(strcmp(queryCommand, "numRows") == 0){
+        puts("I get inside numRows");
+      fscanf(queryFilePtr, " %s", &table);
+
+           for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+       }
+       numRowsQuery(DataBase, s);
+     }
+
+
+
+
+
+
+   if(strcmp(queryCommand, "select")==0){
+      fscanf(queryFilePtr, " %s %s %s %s", table, column, cmp, value2);
+      for(i = 0; i < DataBase->numTables; i++){
+          puts("*");
+        if(strcmp(    (DataBase->tableArray[i]->tableName), table  ) == 0) {
+           puts("**");
+               s = i;}
+         //selectQuery(table, column, cmp, value2, s,i, DataBase); 
+		 }
+      
+     for(i = 0; i < DataBase->tableArray[s]->numCols; i++){
+        if(strcmp( (DataBase->tableArray[s]->rowArray[i]->attrArray[i]->name), column  ) == 0)
+           r = i;}     
+       // select(DataBase, s, r, cmp, value2); }
+   }
+
+
+
+
+
+
+   if(strcmp(queryCommand, "project")==0){
+      fscanf(queryFilePtr, " %s %s %s %s", &table, &column);}
+
+   if(strcmp(queryCommand, "stop") == 0){
+         puts("Query file stopped.");
+         exit(1);}
+
+}
+}
+
+
+
+void project(struct dataBase *dataBase, char ** strPtr){
+  // checkPoint(stdout);  
+  printf("%s\t%d\n",__FILE__,__LINE__);
+  fflush(stdout); 
+ int colIndex, i, j, k, numTables, numRows, numCols;
+    colIndex = i = j = k = numTables = numRows = numCols = 0;
+    struct rowMarker * rowMarker = NULL;
+    struct rowMarker * currentMarker = NULL;
+    currentMarker = rowMarker;
+    numTables = dataBase->numTables;
+    for(i=0; i<numTables ; i++){
+        numCols = dataBase->tableArray[i]->numCols;
+        for(k=0; k<numCols ; k++){
+            numRows = dataBase->tableArray[i]->numRows;
+            colIndex = k;
+            for(j=0; j<numRows ; j++){
+                //break; // ???
+                //colIndex = k;
+                currentMarker = rowMarker;
+                while(1){ //keep looping, will exit at one of the breaks;
+                    if(currentMarker == NULL){
+                        if(rowMarker == NULL){
+                            rowMarker = (struct rowMarker*) malloc(sizeof(struct rowMarker));
+                            rowMarker->mark = dataBase->tableArray[i]->rowArray[j];
+                            break;
+                        }
+                    }  
+                    //currentMarker = rowMarker->mark->attrArray[k];
+                    if(strcmp(currentMarker->mark->attrArray[k]->str, dataBase->tableArray[i]->rowArray[j]->attrArray[k]->str) == 0) //if its a string
+                        break;
+                    if(currentMarker->next != NULL)
+                        currentMarker = currentMarker->next;
+                    else{
+                        currentMarker->next = (struct rowMarker*) malloc(sizeof(struct rowMarker));
+                        currentMarker->next->mark = dataBase->tableArray[i]->rowArray[j];
+                        break;
+                            } 
+                } // closing while loop
+                //currentMarker = headRowMarker;
+            }
+        }
+    } //closing most outer for loop
+    while(currentMarker!= NULL){
+        if(strcmp(currentMarker->mark->attrArray[colIndex]->type, "str") == 0) //if its a string
+            printf("projecting: %s", currentMarker->mark->attrArray[colIndex]->str); //print for if its a string 
+        else
+            printf("projecting: %d", currentMarker->mark->attrArray[colIndex]->intData); //printing for if its an int
+    }
+    
+}//closing project function
+
+void printRow(struct row* r){
+  // checkPoint(stdout);  
+  printf("%s\t%d\n",__FILE__,__LINE__);
+  fflush(stdout); 
+ int numCols, i;
+    numCols = i = 0;
+    numCols= r->numAttributs;
+    for(i=0;i<numCols;i++){
+        if(strcmp(r->attrArray[i]->type, "str")==0) //for string part
+            printf("%s", r->attrArray[i]->str);
+        else //for integer part
+            printf("%d", r->attrArray[i]->intData);
+        
+    }
+}
+
+void select(struct dataBase *dataBase, char ** strPtr){
+  // checkPoint(stdout);  
+  printf("%s\t%d\n",__FILE__,__LINE__);
+  fflush(stdout); 
+ int i, j, k, numCols, numRows, numTables;
+    i = j = k = numCols = numRows = numTables = 0;
+    numTables = dataBase->numTables;
+    for(i=0; i<numTables ; i++){
+        numCols = dataBase->tableArray[i]->numCols;
+        for(k=0; k<numCols ; k++){
+            numRows = dataBase->tableArray[i]->numRows;
+            for(j=0; j<numRows ; j++){
+                if(strlen(strPtr[3])<2){
+                    if(strcmp(dataBase->tableArray[i]->rowArray[j]->attrArray[k]->type, "str")==0){
+                        printf("Error its a string!");
+                        return;
+                    }else{
+                        if(strPtr[3][0]=='<'){
+                            if((dataBase->tableArray[i]->rowArray[j]->attrArray[k]->intData) < atoi(strPtr[4])){ //if less than
+                                printRow(dataBase->tableArray[i]->rowArray[j]);
+                            }
+                            
+                        }
+                        if(strPtr[3][0] == '>'){
+                                if((dataBase->tableArray[i]->rowArray[j]->attrArray[k]->intData) > atoi(strPtr[4])){ // if greater than
+                                printRow(dataBase->tableArray[i]->rowArray[j]);
+                            }
+                        }
+                        
+                    }
+                }
+                else if(strlen(strPtr[3])==2){
+                    if(strPtr[3][1] == '='){
+                        if(strPtr[3][0] == '>'){ //for =>
+                            if(strcmp(dataBase->tableArray[i]->rowArray[j]->attrArray[k]->type, "str")==0){
+                            printf("Error its a string!");
+                            return;
+                            }
+                            else{
+                                if((dataBase->tableArray[i]->rowArray[j]->attrArray[k]->intData) >= atoi(strPtr[4])){ //if greater than or equal
+                                    printRow(dataBase->tableArray[i]->rowArray[j]);
+                                }
+                            }
+                            
+                        }else if(strPtr[3][0] == '<'){ //for =<
+                            if(strcmp(dataBase->tableArray[i]->rowArray[j]->attrArray[k]->type, "str")==0){
+                            printf("Error its a string!");
+                            return;
+                            }
+                            else{
+                                if((dataBase->tableArray[i]->rowArray[j]->attrArray[k]->intData) <= atoi(strPtr[4])){ //if less than or equal
+                                    printRow(dataBase->tableArray[i]->rowArray[j]);
+                                }
+                            }
+                        }
+                    }else if(strPtr[3][0] == '='){//for ==
+                        if(strcmp(dataBase->tableArray[i]->rowArray[j]->attrArray[k]->type, "str")==0){
+                            char * temp = (char *) malloc(sizeof(char)*(strlen(strPtr[4])));
+                            strcpy(temp, strPtr[4]);
+                            strtok(temp, "\"");
+                            
+                            if(strcmp(temp, dataBase->tableArray[i]->rowArray[j]->attrArray[k]->str)==0){
+                                printRow(dataBase->tableArray[i]->rowArray[j]);
+                            }
+                            
+                            }
+                        else{ //in case it is an integer type
+                                if((dataBase->tableArray[i]->rowArray[j]->attrArray[k]->intData) == atoi(strPtr[4])){ //if less than or equal
+                                    printRow(dataBase->tableArray[i]->rowArray[j]);
+                                }
+                            }
+                        
+                    }else if(strPtr[3][0] == '!'){//for !=
+                        if(strcmp(dataBase->tableArray[i]->rowArray[j]->attrArray[k]->type, "str")==0){
+                            char * temp = (char *) malloc(sizeof(char)*(strlen(strPtr[4])));
+                            strcpy(temp, strPtr[4]);
+                            strtok(temp, "\"");
+                            
+                            if(strcmp(temp, dataBase->tableArray[i]->rowArray[j]->attrArray[k]->str)!=0){
+                                printRow(dataBase->tableArray[i]->rowArray[j]);
+                            }
+                            
+                            }
+                        else{ //in case it is an integer type
+                                if((dataBase->tableArray[i]->rowArray[j]->attrArray[k]->intData) != atoi(strPtr[4])){ //if less than or equal
+                                    printRow(dataBase->tableArray[i]->rowArray[j]);
+                                }
+                            }
+                        
+                    }
+                }else//in case non of the above
+                    printf("Error! non of the above cases for select!");
+            }
+        }
+    }
+}
+/*
+void stop(struct dataBase *dataBase, char ** strPtr){
+    
+}
+
+void colStat(struct dataBase *dataBase, char ** strPtr){
+    
+}
+
+void rowStat(struct dataBase *dataBase, char ** strPtr){
+    
+}
+
+void numCol(struct dataBase *dataBase, char ** strPtr){
+    
+}
+
+void numRow(struct dataBase *dataBase, char ** strPtr){
+    
+}
+
+
+
+void numRowsQuery( struct dataBase * DataBase, int index){
+    printf("The number of rows: %d \n", DataBase->tableArray[index]->rowSize);
+}
+
+void numColsQuery( struct dataBase * DataBase, int index){
+     puts("I get inside the numCols query");
+    printf("The number of columns: %d \n", DataBase->tableArray[index]->numCols);
+}
+
+void rowStatQuery(struct dataBase * DataBase, int index){
+  puts("I get inside the rowstat query");
+  int i; 
+   for (i = 0; i < DataBase->tableArray[index]->numRows; i++){
+  printf("The size in bytes of each line %d\n", DataBase->tableArray[index]->rowArray[i]->size);
+}
+}
+
+
+void colStatQuery(struct dataBase * DataBase, int indexOne, int indexTwo){
+     puts("I get inside the colstat query");
+     int i;
+     for(i = 0; i < DataBase->tableArray[indexOne]->numCols; i++){
+      printf("The size in bytes of each line %d\n", DataBase->tableArray[indexOne]->rowArray[i]->size);}
+}
+*/
+

@@ -1,0 +1,122 @@
+
+
+//
+//  main.c
+//  program 1
+//
+//  Created by arnoldas kurbanovas on 2/1/16.
+//  Copyright © 2016 arnoldas kurbanovas. All rights reserved.
+//
+
+#include "constants.h"
+//#include "insert.c"
+//#include "stats.c"
+//#include "binarysearchtree.c"
+#include "struct_def.h"
+
+//main class
+int main(int argc, char *argv[]){
+    
+    tree_node *root = NULL;
+    
+    //   FILE *output_File;
+    FILE *input_File;
+    FILE *output_File;
+    char str[MAXLEN+1];
+    int num_str = 0;
+    
+    //makes sure there is the correct number of arguments specified in command line
+    if(argc != 3){
+        printf(" not enough arguments! ");
+        fprintf(stderr, "Usage: %s file\n", argv[0]); exit(1);
+    }
+    
+    //check to make sure file getting read in exists and can be opend otherwise error thrown
+    if((input_File = fopen(argv[1], "r")) == NULL){
+        printf("failed to open input file");
+        fprintf(stderr, "Could not open file: %s\n", argv[1]); exit(1);
+    }
+    
+    //checks to make sure output file is there and in correct location in command line
+    if((output_File = fopen(argv[2], "w")) == NULL){
+        printf("failed to open output file");
+        fprintf(stderr, "Could not open file: %s\n", argv[2]); exit(1);
+    }
+    
+   // output_File = fopen("output.txt", "w+");
+    //opens output file specified in command like and writes to it
+    output_File = fopen(argv[2], "w");
+
+    //loops to get all cahracters read in from input file
+    //until end of file is reached and numstr keeps a 
+    //count for every string read in 
+    while(fscanf(input_File, "%s", str) != EOF){
+       // fscanf(input_File, "%s", &str);
+        root = insert(root, str);
+        num_str++;
+        
+    }
+
+
+    //    treeprint(root, output_File);
+    
+    //everything below is to print to file in the order
+    //specified in the test cases for easy grading and comparison
+
+    fprintf(output_File, "No. of strings in the input file     =  %d \n", num_str);
+    
+    //should show the height
+    fprintf(output_File, "Height of the search tree            =  %d \n", (maxHeight(root)));
+   
+    fprintf(output_File, "Number of leaves in the tree         =  %d \n", leafcount(root));
+
+    fprintf(output_File, "Height of the left subtree of root   =  %d \n", (maxHeight(root->left)));
+
+    fprintf(output_File, "No. of strings in the left subtree   =  %d \n", root->leftsubtree);
+
+    fprintf(output_File, "Height of the right subtree of root  =  %d \n", (maxHeight(root->right)));
+
+    fprintf(output_File, "No. of strings in the right subtree  =  %d \n", root->rightsubtree);
+    
+    
+    // openWritableFile();
+    //printToFile( node->str );
+    
+    return 0;
+}
+
+
+
+
+/*
+  //int data;
+ // char * key;
+ 
+ };tree_node;
+ 
+ //tree_node* root;
+ 
+ bool isEmpty() const {return root==NULL;}
+ void find(char * ch);
+ void insert(char * ch, double d);
+ 
+ };
+ 
+ //Smaller elements go left
+ //larger elements go right
+ void find(char * ch)
+ {
+ bool isfind = false;
+ struct tree_node* current;
+ current = root;
+ while(current){
+ if(strcmp(ch, current->key)==0){
+ break;
+ 
+ }
+ else if(strcmp(ch, current->key)>0)
+ current = current->right;
+ else if(strcmp(ch, current->key)<0)
+ current = current->left;
+ 
+*/
